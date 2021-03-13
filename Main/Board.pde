@@ -4,7 +4,6 @@ class Board
   
   Board(String FEN)
   {
-    
   }
   
   void AddPiece(int pos, PieceType type, PieceColor col)
