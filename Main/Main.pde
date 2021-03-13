@@ -3,7 +3,7 @@
 color lightSquares = color(240, 217, 181);
 color darkSquares = color(181, 136, 99);
 
-Board b = new Board();
+Board b = new Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 
 void setup()
 {
