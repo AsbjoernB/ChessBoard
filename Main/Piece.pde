@@ -20,6 +20,6 @@ enum PieceType
   Bishop,
   Knight,
   Rook,
-  yaasQueenSlay,
+  Queen,
   King
 }
