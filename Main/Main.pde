@@ -3,7 +3,7 @@
 color lightSquares = color(240, 217, 181);
 color darkSquares = color(181, 136, 99);
 
-Board b = new Board("");
+Board b = new Board("3RR3/3RR3/3RR3/3RR3/3RR3/1R1RR1R1/RRRRRRRR/RRR2RRR");
 
 int selectedSquare = -1;
 
@@ -11,19 +11,13 @@ void setup()
 {
   size(1200, 800);
   noStroke();
-  b.AddPiece(32, PieceType.Rook, PieceColor.White);
-  b.AddPiece(23, PieceType.Rook, PieceColor.White);
-  b.AddPiece(44, PieceType.Rook, PieceColor.Black);
-  b.AddPiece(0, PieceType.Rook, PieceColor.Black);
-  
-
   println(int('9'));
 }
 
 void draw()
 {
   background(80, 80, 100);
-  
+
   // draw board
   for (int r = 0; r < 8; r++)
   {
@@ -36,7 +30,7 @@ void draw()
       rect(r*100, f*100, 100, 100);
     }
   }
-  
+
   // draw pieces and selected square
   for (int i = 0; i < 64; i++)
   {
@@ -46,7 +40,7 @@ void draw()
       fill(100);
       rect((i%8)*100, floor(i/8)*100, 100, 100);
     }
-    
+
     // draw pieces
     if (b.pieces[i] != null)
     {
@@ -61,13 +55,13 @@ void draw()
 
 void mousePressed()
 {
-  
+
   if (mouseX >= 0 && mouseX <= 800 && mouseY >= 0 && mouseY <= 800)
   {
     int x = floor(mouseX/100);
     int y = floor(mouseY/100);
     int newSquare = y*8+x;
-    
+
     // if no square is selected and a piece was clicked
     if (selectedSquare == -1)
     {
@@ -76,14 +70,14 @@ void mousePressed()
         selectedSquare = newSquare;
       }
     }
-    
+
     // else if a square is already selected
     else if (b.pieces[selectedSquare] != null)
     {
       // move piece
       selectedSquare = -1;
     }
-    
+
     println(selectedSquare);
   }
 }

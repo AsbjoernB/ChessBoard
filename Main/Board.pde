@@ -8,12 +8,16 @@ class Board
     for (int i = 0; i < FEN.length(); i++)
     { 
       char c = FEN.charAt(i);
-
+      if(c == ' ')
+      {
+        break;
+      }
       if (int(c) >= 48 && int(c) <= 57)
       {
         int temp;
         temp = int(c)-48;
         boardPos += temp;
+        continue;
       }
       if (c == '/')
       {
@@ -22,7 +26,7 @@ class Board
       PieceColor pieceCol;
       PieceType pieceType = PieceType.Pawn;
       println(c);
-      if (c == Character.toUpperCase(c) == false)
+      if (c == Character.toUpperCase(c))
       {
         pieceCol = PieceColor.White;
       } else
@@ -44,7 +48,7 @@ class Board
         pieceType = PieceType.Rook;
         break;
       case 'q':
-        pieceType = PieceType.yaasQueenSlay;
+        pieceType = PieceType.Queen;
         break;
       case 'k':
         pieceType = PieceType.King;
