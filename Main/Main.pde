@@ -3,12 +3,13 @@
 color lightSquares = color(240, 217, 181);
 color darkSquares = color(181, 136, 99);
 
-Board b = new Board("3RR3/3RR3/3RR3/3RR3/3RR3/1R1RR1R1/RRRRRRRR/RRR2RRR");
+Board b;
 
 int selectedSquare = -1;
 
 void setup()
 {
+  b = new Board("rn2Qk2/6p1/1pp4p/p7/P7/2q5/2P2PPP/4R1K1");
   size(1200, 800);
   noStroke();
   println(int('9'));
@@ -48,7 +49,8 @@ void draw()
         fill(250);
       else
         fill(10);
-      rect((i%8)*100+25, floor(i/8)*100+25, 50, 50);
+      //rect((i%8)*100+25, floor(i/8)*100+25, 50, 50);
+      image(b.pieces[i].img, (i%8)*100, floor(i/8)*100);
     }
   }
 }
