@@ -2,17 +2,34 @@
 //color darkSquares = color(100, 200, 100);
 color lightSquares = color(240, 217, 181);
 color darkSquares = color(181, 136, 99);
-
+import controlP5.*;
+ControlP5 cp5;
+int buttonCount = 2;
+Button [] buttons = new Button [buttonCount];
+Textarea FEN; 
 Board b;
 
 int selectedSquare = -1;
 
 void setup()
 {
+  cp5 = new ControlP5(this);
   b = new Board("rn2Qk2/6p1/1pp4p/p7/P7/2q5/2P2PPP/4R1K1");
   size(1200, 800);
   noStroke();
   println(int('9'));
+  println(b.pieces[0].pieceType);
+  for (int i = 0; i < buttonCount; i++)
+  {
+    buttons[i] = cp5.addButton("Button"+i)
+      .setSize(190, 30)
+      .setPosition(805+i*200, 10);
+  }
+  FEN = cp5.addTextarea("FEN")
+    .setSize(380, 30)
+    .setPosition(810, 50)
+    .setFont(createFont("Garamond", 32))
+    .setText("oonga boonga");
 }
 
 void draw()
@@ -81,5 +98,48 @@ void mousePressed()
     }
 
     println(selectedSquare);
+  }
+}
+
+void boardread()
+{
+  for (int i = 0; i < b.pieces.length; i++)
+  {
+    String translate;
+    if (b.pieces[i] != null)
+    {
+      switch(b.pieces[i].pieceType)
+      {
+      case Pawn:
+        translate = translate+'P';
+
+        break;
+
+      case Bishop:
+        translate = translate+'B';
+
+        break;
+
+      case Knight:
+        translate = translate+'N';
+
+        break; 
+
+      case Rook:
+        translate = translate+'R';
+
+        break;
+
+      case Queen:
+        translate = translate+'P';
+
+        break;
+
+      case King:
+        translate = translate+'P';
+
+        break;
+      }
+    }
   }
 }
