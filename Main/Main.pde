@@ -108,38 +108,78 @@ void boardread()
     String translate;
     if (b.pieces[i] != null)
     {
-      switch(b.pieces[i].pieceType)
+      if (b.pieces[i].pieceColor == b.pieces[i].pieceColor.White)
       {
-      case Pawn:
-        translate = translate+'P';
+        String tempAddition;
+        switch(b.pieces[i].pieceType)
+        {
+        case Pawn:
+          translate = translate+"P";
 
-        break;
+          break;
 
-      case Bishop:
-        translate = translate+'B';
+        case Bishop:
+          translate = translate+"B";
 
-        break;
+          break;
 
-      case Knight:
-        translate = translate+'N';
+        case Knight:
+          translate = translate+"N";
 
-        break; 
+          break; 
 
-      case Rook:
-        translate = translate+'R';
+        case Rook:
+          translate = translate+"R";
 
-        break;
+          break;
 
-      case Queen:
-        translate = translate+'P';
+        case Queen:
+          translate = translate+"Q";
 
-        break;
+          break;
 
-      case King:
-        translate = translate+'P';
+        case King:
+          translate = translate+"K";
 
-        break;
+          break;
+        }
+      } else
+      {
+        switch(b.pieces[i].pieceType)
+        {
+        case Pawn:
+          translate = translate+"p";
+
+          break;
+
+        case Bishop:
+          translate = translate+"b";
+
+          break;
+
+        case Knight:
+          translate = translate+"n";
+
+          break; 
+
+        case Rook:
+          translate = translate+"r";
+
+          break;
+
+        case Queen:
+          translate = translate+"q";
+
+          break;
+
+        case King:
+          translate = translate+"k";
+
+          break;
+        }
       }
+    } else
+    {
     }
   }
 }
