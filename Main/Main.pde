@@ -1,9 +1,17 @@
+import uibooster.*;
+import uibooster.components.*;
+import uibooster.model.*;
+import uibooster.model.formelements.*;
+import uibooster.utils.*;
+import controlP5.*;
+ControlP5 cp5;
+
+
 //color lightSquares = color(200, 225, 200);
 //color darkSquares = color(100, 200, 100);
 color lightSquares = color(240, 217, 181);
 color darkSquares = color(181, 136, 99);
-import controlP5.*;
-ControlP5 cp5;
+
 int buttonCount = 2;
 Button [] buttons = new Button [buttonCount];
 Textarea FEN; 
@@ -14,12 +22,12 @@ Textarea moves;
 
 boolean whiteToMove = true;
 int moveNum = 1;
->>>>>>> Stashed changes
 
 int selectedSquare = -1;
 
 void setup()
 {
+  String opinion = new UiBooster().showTextInputDialog("What do you think?");
   cp5 = new ControlP5(this);
   b = new Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
   size(1200, 800);
@@ -46,10 +54,6 @@ void setup()
     .hideScrollbar();
   buttons[0].setLabel("Indlaes spil");
   buttons[1].setLabel("Spil herfra");
-    .setSize(380, 30)
-    .setPosition(810, 50)
-    .setFont(createFont("Garamond", 32))
-    .setText("oonga boonga");
     
   moves = cp5.addTextarea("moves")
     .setSize(380, 300)
@@ -178,7 +182,6 @@ String boardread()
   int tempVal = 0;
   for (int i = 0; i < b.pieces.length; i++)
   {
-    String translate = "";
     if (b.pieces[i] != null)
     {
       if (i > 0 && b.pieces[i-1] == null)
