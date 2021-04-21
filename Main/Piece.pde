@@ -82,14 +82,14 @@ class Piece
 enum PieceColor
 {
   White, 
-    Black
+  Black
 }
 enum PieceType
 {
   Pawn, 
-    Bishop, 
-    Knight, 
-    Rook, 
-    Queen, 
-    King
+  Bishop, 
+  Knight, 
+  Rook, 
+  Queen, 
+  King
 }

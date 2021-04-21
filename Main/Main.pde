@@ -10,12 +10,18 @@ Textarea FEN;
 Board b;
 CColor buttonsColor = new CColor();
 
+Textarea moves;
+
+boolean whiteToMove = true;
+int moveNum = 1;
+>>>>>>> Stashed changes
+
 int selectedSquare = -1;
 
 void setup()
 {
   cp5 = new ControlP5(this);
-  b = new Board("rn2Qk2/6p1/1pp4p/p7/P7/2q5/2P2PPP/4R1K1");
+  b = new Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
   size(1200, 800);
   noStroke();
   boardread();
@@ -40,6 +46,16 @@ void setup()
     .hideScrollbar();
   buttons[0].setLabel("Indlaes spil");
   buttons[1].setLabel("Spil herfra");
+    .setSize(380, 30)
+    .setPosition(810, 50)
+    .setFont(createFont("Garamond", 32))
+    .setText("oonga boonga");
+    
+  moves = cp5.addTextarea("moves")
+    .setSize(380, 300)
+    .setPosition(810, 150)
+    .setFont(createFont("Garamond", 32))
+    .setText("1. ");
 }
 
 void draw()
@@ -82,33 +98,77 @@ void draw()
     }
   }
 }
-
+void keyPressed()
+{
+  println(moves.getText());
+}
 void mousePressed()
 {
-
-  if (mouseX >= 0 && mouseX <= 800 && mouseY >= 0 && mouseY <= 800)
+  if (mouseButton == RIGHT)
   {
-    int x = floor(mouseX/100);
-    int y = floor(mouseY/100);
-    int newSquare = y*8+x;
-
-    // if no square is selected and a piece was clicked
-    if (selectedSquare == -1)
+    selectedSquare = -1;
+  }
+  else if (mouseButton == LEFT)
+  {
+    if (mouseX >= 0 && mouseX <= 800 && mouseY >= 0 && mouseY <= 800)
     {
-      if (b.pieces[newSquare] != null)
+      int x = floor(mouseX/100);
+      int y = floor(mouseY/100);
+      int newSquare = y*8+x;
+      
+      // if a square is already selected
+      if (selectedSquare != -1)
+      {
+        if (selectedSquare == newSquare)
+          selectedSquare = -1;
+        else if (b.pieces[newSquare] != null && b.pieces[selectedSquare].pieceColor == b.pieces[newSquare].pieceColor)
+          selectedSquare = newSquare;
+        else
+        {
+          String moveString = "";
+          switch (b.pieces[selectedSquare].pieceType)
+          {
+            case Pawn: break;
+            case Bishop: moveString += 'B'; break;
+            case Knight: moveString += 'N'; break;
+            case Rook: moveString += 'R'; break;
+            case Queen: moveString += 'Q'; break;
+            case King: moveString += 'K'; break;
+          }
+          if (b.pieces[newSquare] != null)
+          {
+            if (b.pieces[selectedSquare].pieceType == PieceType.Pawn)
+              moveString += "abcdefgh".charAt(selectedSquare%8);
+            moveString += 'x';
+          }
+          moveString += "abcdefgh".charAt(newSquare%8);
+          moveString += 8-newSquare/8;
+          println(moveString);
+          moves.append(moveString + " ");
+          
+          if (!whiteToMove)
+          {
+            moveNum++;
+            moves.append("\n"+moveNum+". ");
+          }
+            
+          moveString = "";
+          
+          // move piece
+          b.pieces[newSquare] = b.pieces[selectedSquare];
+          b.pieces[selectedSquare] = null;
+          selectedSquare = -1;
+          
+          whiteToMove = !whiteToMove;
+        }
+        
+      }
+      // else if no square is selected and piece is clicked
+      else if (b.pieces[newSquare] != null && (b.pieces[newSquare].pieceColor == PieceColor.White) == whiteToMove)
       {
         selectedSquare = newSquare;
       }
     }
-
-    // else if a square is already selected
-    else if (b.pieces[selectedSquare] != null)
-    {
-      // move piece
-      selectedSquare = -1;
-    }
-
-    println(selectedSquare);
   }
 }
 
@@ -118,6 +178,7 @@ String boardread()
   int tempVal = 0;
   for (int i = 0; i < b.pieces.length; i++)
   {
+    String translate = "";
     if (b.pieces[i] != null)
     {
       if (i > 0 && b.pieces[i-1] == null)
