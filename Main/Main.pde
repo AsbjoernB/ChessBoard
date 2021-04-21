@@ -98,19 +98,28 @@ void mousePressed()
     }
 
     println(selectedSquare);
+    boardread();
   }
 }
 
 void boardread()
 {
+  String translate = "";
+  int tempVal = 0;
   for (int i = 0; i < b.pieces.length; i++)
   {
-    String translate;
     if (b.pieces[i] != null)
     {
-      if (b.pieces[i].pieceColor == b.pieces[i].pieceColor.White)
+      if (i > 0 && b.pieces[i-1] == null)
       {
-        String tempAddition;
+        if (tempVal != 0 )
+        {
+          translate = translate+str(tempVal);
+          tempVal = 0;
+        }
+      }
+      if (b.pieces[i].pieceColor == PieceColor.White)
+      {
         switch(b.pieces[i].pieceType)
         {
         case Pawn:
@@ -180,6 +189,18 @@ void boardread()
       }
     } else
     {
+      tempVal++;
+    }
+    if (i != 0 && (i+1) % 8 == 0)
+    {
+      if (tempVal != 0)
+      {
+        translate = translate+str(tempVal);
+        tempVal = 0;
+      }
+      translate = translate+"/";
     }
   }
+
+  println(translate);
 }
