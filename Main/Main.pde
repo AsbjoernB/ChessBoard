@@ -8,6 +8,7 @@ int buttonCount = 2;
 Button [] buttons = new Button [buttonCount];
 Textarea FEN; 
 Board b;
+CColor buttonsColor = new CColor();
 
 int selectedSquare = -1;
 
@@ -17,25 +18,35 @@ void setup()
   b = new Board("rn2Qk2/6p1/1pp4p/p7/P7/2q5/2P2PPP/4R1K1");
   size(1200, 800);
   noStroke();
-  println(int('9'));
-  println(b.pieces[0].pieceType);
+  boardread();
+  buttonsColor
+    .setActive(color(196, 160, 130))
+    .setForeground(color(188, 148, 115))
+    .setBackground(color(181, 136, 99));
   for (int i = 0; i < buttonCount; i++)
   {
     buttons[i] = cp5.addButton("Button"+i)
-      .setSize(190, 30)
-      .setPosition(805+i*200, 10);
+      .setSize(170, 30)
+      .setPosition(825+i*200, 10)
+      .setColor(buttonsColor)
+      .setFont(createFont("Arial", 17));
   }
   FEN = cp5.addTextarea("FEN")
-    .setSize(380, 30)
-    .setPosition(810, 50)
-    .setFont(createFont("Garamond", 32))
-    .setText("oonga boonga");
+    .setSize(370, 50)
+    .setPosition(825, 50)
+    .setFont(createFont("Arial", 17))
+    .setLabel("FEN")
+    .setText(boardread())
+    .hideScrollbar();
+  buttons[0].setLabel("Indlaes spil");
+  buttons[1].setLabel("Spil herfra");
 }
 
 void draw()
 {
-  background(80, 80, 100);
-
+  background(240, 217, 181);
+  fill(155, 140, 117);
+  rect(800, 0, 20, 800);
   // draw board
   for (int r = 0; r < 8; r++)
   {
@@ -98,11 +109,10 @@ void mousePressed()
     }
 
     println(selectedSquare);
-    boardread();
   }
 }
 
-void boardread()
+String boardread()
 {
   String translate = "";
   int tempVal = 0;
@@ -191,7 +201,7 @@ void boardread()
     {
       tempVal++;
     }
-    if (i != 0 && (i+1) % 8 == 0)
+    if (i != 0 && (i+1) % 8 == 0 && i+1 != 64)
     {
       if (tempVal != 0)
       {
@@ -201,6 +211,5 @@ void boardread()
       translate = translate+"/";
     }
   }
-
-  println(translate);
+  return(translate);
 }
