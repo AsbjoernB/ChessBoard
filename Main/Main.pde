@@ -56,8 +56,8 @@ void setup()
   buttons[1].setLabel("Spil herfra");
     
   moves = cp5.addTextarea("moves")
-    .setSize(380, 300)
-    .setPosition(810, 150)
+    .setSize(370, 300)
+    .setPosition(825, 150)
     .setFont(createFont("Garamond", 32))
     .setText("1. ");
 }
