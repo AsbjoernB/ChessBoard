@@ -18,7 +18,9 @@ Textarea FEN;
 Board b;
 CColor buttonsColor = new CColor();
 
-Textarea moves;
+int moveIndex = -1;
+ArrayList<LANmove> moveList = new ArrayList<LANmove>();
+Textarea moveText;
 
 boolean whiteToMove = true;
 int moveNum = 1;
@@ -27,7 +29,6 @@ int selectedSquare = -1;
 
 void setup()
 {
-  String opinion = new UiBooster().showTextInputDialog("What do you think?");
   cp5 = new ControlP5(this);
   b = new Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
   size(1200, 800);
@@ -55,7 +56,7 @@ void setup()
   buttons[0].setLabel("Indlaes spil");
   buttons[1].setLabel("Spil herfra");
     
-  moves = cp5.addTextarea("moves")
+  moveText = cp5.addTextarea("moves")
     .setSize(370, 300)
     .setPosition(825, 150)
     .setFont(createFont("Garamond", 32))
@@ -104,7 +105,51 @@ void draw()
 }
 void keyPressed()
 {
-  println(moves.getText());
+  // move back)
+  if (keyCode == LEFT)
+  {
+    if (moveIndex >= 0)
+    {
+      LANmove move = moveList.get(moveIndex);
+      b.pieces[move.fromPos] = b.pieces[move.toPos];
+      b.pieces[move.toPos] = move.capturedPiece;
+      moveIndex--;
+    }
+  }
+  // move forward
+  else if (keyCode == RIGHT)
+  {
+    if (moveIndex < moveList.size()-1)
+    {
+      moveIndex++;
+      LANmove move = moveList.get(moveIndex);
+      b.pieces[move.toPos] = b.pieces[move.fromPos];
+      b.pieces[move.fromPos] = null;
+    }
+  }
+  // start
+  else if (keyCode == DOWN)
+  {
+    while (moveIndex < moveList.size()-1)
+    {
+      moveIndex++;
+      LANmove move = moveList.get(moveIndex);
+      b.pieces[move.toPos] = b.pieces[move.fromPos];
+      b.pieces[move.fromPos] = null;
+    }
+  }
+  // end
+  else if (keyCode == UP)
+  {
+    while (moveIndex >= 0)
+    {
+      LANmove move = moveList.get(moveIndex);
+      b.pieces[move.fromPos] = b.pieces[move.toPos];
+      b.pieces[move.toPos] = move.capturedPiece;
+      moveIndex--;
+    }
+  }
+  println(moveText.getText());
 }
 void mousePressed()
 {
@@ -123,40 +168,27 @@ void mousePressed()
       // if a square is already selected
       if (selectedSquare != -1)
       {
+        // deselect
         if (selectedSquare == newSquare)
           selectedSquare = -1;
+        // select new square
         else if (b.pieces[newSquare] != null && b.pieces[selectedSquare].pieceColor == b.pieces[newSquare].pieceColor)
           selectedSquare = newSquare;
-        else
+          
+        // move piece
+        else if (moveIndex == moveList.size()-1)
         {
-          String moveString = "";
-          switch (b.pieces[selectedSquare].pieceType)
-          {
-            case Pawn: break;
-            case Bishop: moveString += 'B'; break;
-            case Knight: moveString += 'N'; break;
-            case Rook: moveString += 'R'; break;
-            case Queen: moveString += 'Q'; break;
-            case King: moveString += 'K'; break;
-          }
-          if (b.pieces[newSquare] != null)
-          {
-            if (b.pieces[selectedSquare].pieceType == PieceType.Pawn)
-              moveString += "abcdefgh".charAt(selectedSquare%8);
-            moveString += 'x';
-          }
-          moveString += "abcdefgh".charAt(newSquare%8);
-          moveString += 8-newSquare/8;
-          println(moveString);
-          moves.append(moveString + " ");
+          moveIndex++;
+          LANmove move = new LANmove(selectedSquare, newSquare, b.pieces[newSquare]); 
+          moveList.add(move);
+          moveText.append(move.getNotation() + " ");
+          
           
           if (!whiteToMove)
           {
             moveNum++;
-            moves.append("\n"+moveNum+". ");
+            moveText.append("\n"+moveNum+". ");
           }
-            
-          moveString = "";
           
           // move piece
           b.pieces[newSquare] = b.pieces[selectedSquare];
