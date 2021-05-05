@@ -36,7 +36,6 @@ void setup()
   size(1200, 800);
   noStroke();
   boardread();
-  selectInput("tissemand","poopoo");
   buttonsColor
     .setActive(color(196, 160, 130))
     .setForeground(color(188, 148, 115))
@@ -49,16 +48,15 @@ void setup()
       .setColor(buttonsColor)
       .setFont(createFont("Arial", 17));
   }
-  buttons[0].setLabel("Indlaes eller gem spil");
-  buttons[1].setLabel("Spil herfra");
+  buttons[0].setLabel("Start spil");
+  buttons[1].setLabel("Indlaes spil");
+  buttons[2].setLabel("Gem spil");
 
   moveText = cp5.addTextarea("moves")
     .setSize(370, 300)
     .setPosition(825, 150)
     .setFont(createFont("Garamond", 32))
     .setText("1. ");
-  buttons[2].setLabel("Kopier position");
-  ReadFile("bruh.txt");
 }
 
 void draw()
@@ -99,19 +97,7 @@ void draw()
       //rect((i%8)*100+25, floor(i/8)*100+25, 50, 50);
       image(b.pieces[i].img, (i%8)*100, floor(i/8)*100);
     }
-  }/*
-  if(buttons[1].isMousePressed() == true)
-   {
-   gameNotation = booster.showTextInputDialog("Indtast eller kopier FEN notation");
-   if(gameNotation != null && !gameNotation.equals(""))
-   {
-   b = new Board(gameNotation);
-   }
-   }
-   if(buttons[2].isMousePressed() == true)
-   {
-   println(boardread());
-   }*/
+  }
 }
 void keyPressed()
 {
@@ -191,7 +177,7 @@ void mousePressed()
           LANmove move = new LANmove(selectedSquare, newSquare, b.pieces[newSquare]); 
           moveList.add(move);
           moveText.append(move.getNotation() + " ");
-          
+
           if (!whiteToMove)
           {
             moveNum++;
@@ -318,13 +304,17 @@ String boardread()
 
 void controlEvent(ControlEvent theEvent)
 {
-  if (theEvent.getController().getName().equals("Button1"))
+  if (theEvent.getController().getName().equals("Button0"))
   {
-    gameNotation = booster.showTextInputDialog("Indtast eller kopier FEN notation");
+    gameNotation = booster.showTextInputDialog("Indtast FEN notation");
     if (gameNotation != null && !gameNotation.equals(""))
     {
       b = new Board(gameNotation);
     }
+  }
+  if (theEvent.getController().getName().equals("Button1"))
+  {
+
   }
   if (theEvent.getController().getName().equals("Button2"))
   {
