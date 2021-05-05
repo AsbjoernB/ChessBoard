@@ -63,6 +63,7 @@ void setup()
 // sørger for at alting sættes tilbage til startværdierne, når et spil f.eks. indlæses
 void gameInit()
 {
+  
 }
 
 void draw()
@@ -311,11 +312,6 @@ String boardread()
 void controlEvent(ControlEvent theEvent)
 {
   if (theEvent.getController().getName().equals("Button0"))
-
-  {
-    selectInput("tissemand","ReadFile");
-  }
-  if (theEvent.getController().getName().equals("Button1"))
   {
     gameNotation = booster.showTextInputDialog("Indtast FEN notation");
     if (gameNotation != null && !gameNotation.equals(""))
@@ -325,7 +321,10 @@ void controlEvent(ControlEvent theEvent)
   }
   if (theEvent.getController().getName().equals("Button1"))
   {
-
+    selectInput("tissemand", "ReadFile");
+  }
+  if (theEvent.getController().getName().equals("Button1"))
+  {
   }
   if (theEvent.getController().getName().equals("Button2"))
   {
