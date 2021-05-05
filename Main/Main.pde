@@ -24,20 +24,19 @@ Textarea moveText;
 
 
 String gameNotation;
-Textarea moves;
 boolean whiteToMove = true;
 int moveNum = 1;
 int selectedSquare = -1;
 
+
 void setup()
-{
-                  
+{  
   cp5 = new ControlP5(this);
   b = new Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
   size(1200, 800);
   noStroke();
   boardread();
-
+  selectInput("tissemand","poopoo");
   buttonsColor
     .setActive(color(196, 160, 130))
     .setForeground(color(188, 148, 115))
@@ -53,14 +52,12 @@ void setup()
   buttons[0].setLabel("Indlaes eller gem spil");
   buttons[1].setLabel("Spil herfra");
 
-  moveText = cp5.addTextarea("moves");
-  buttons[2].setLabel("Kopier position");
-
-  moves = cp5.addTextarea("moves")
+  moveText = cp5.addTextarea("moves")
     .setSize(370, 300)
     .setPosition(825, 150)
     .setFont(createFont("Garamond", 32))
     .setText("1. ");
+  buttons[2].setLabel("Kopier position");
   ReadFile("bruh.txt");
 }
 
@@ -190,48 +187,16 @@ void mousePressed()
         // move piece
         else if (moveIndex == moveList.size()-1)
         {
-            moveIndex++;
+          moveIndex++;
           LANmove move = new LANmove(selectedSquare, newSquare, b.pieces[newSquare]); 
           moveList.add(move);
           moveText.append(move.getNotation() + " ");
-
-            String moveString = "";
-          switch (b.pieces[selectedSquare].pieceType)
-          {
-          case Pawn: 
-            break;
-          case Bishop: 
-            moveString += 'B'; 
-            break;
-          case Knight: 
-            moveString += 'N'; 
-            break;
-          case Rook: 
-            moveString += 'R'; 
-            break;
-          case Queen: 
-            moveString += 'Q'; 
-            break;
-          case King: 
-            moveString += 'K'; 
-            break;
-          }
-          if (b.pieces[newSquare] != null)
-          {
-            if (b.pieces[selectedSquare].pieceType == PieceType.Pawn)
-              moveString += "abcdefgh".charAt(selectedSquare%8);
-            moveString += 'x';
-          }
-          moveString += "abcdefgh".charAt(newSquare%8);
-          moveString += 8-newSquare/8;
-          moves.append(moveString + " ");
+          
           if (!whiteToMove)
           {
             moveNum++;
             moveText.append("\n"+moveNum+". ");
-          }          
-
-          moveString = "";
+          }
           // move piece
           b.pieces[newSquare] = b.pieces[selectedSquare];
           b.pieces[selectedSquare] = null;

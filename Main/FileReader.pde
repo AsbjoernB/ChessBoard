@@ -1,8 +1,9 @@
-void SaveFile(String file)
+void SaveFile(File file)
 {
-  String content = boardread() + "\n" + FEN.getText();
+  String[] content = new String[] {boardread() + "\n" + FEN.getText()};
+  saveStrings(file, content);
 }
-void ReadFile(String file)
+void ReadFile(File file)
 {
   String[] lines = loadStrings(file);
   b = new Board(lines[0]);
