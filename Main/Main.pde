@@ -69,6 +69,7 @@ void draw()
   background(240, 217, 181);
   fill(155, 140, 117);
   rect(800, 0, 20, 800);
+  
   // draw board
   for (int r = 0; r < 8; r++)
   {
@@ -79,6 +80,9 @@ void draw()
       else
         fill(darkSquares);
       rect(r*100, f*100, 100, 100);
+      
+      fill(0);
+      text(f*8+r, r*100+50, f*100+50);
     }
   }
 
