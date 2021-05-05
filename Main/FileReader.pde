@@ -1,7 +1,12 @@
 void SaveFile(File file)
 {
-  String[] content = new String[] {boardread() + "\n" + FEN.getText()};
-  saveStrings(file, content);
+  if (file == null)
+    return;
+  
+  String[] content = new String[] {boardread()};
+  println(FEN.getText());
+  content = splice(content, FEN.getText().split("\n"), 1);
+  saveStrings(file.getAbsolutePath(), content);
 }
 void ReadFile(File file)
 {

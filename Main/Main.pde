@@ -325,7 +325,7 @@ void controlEvent(ControlEvent theEvent)
   }
   if (theEvent.getController().getName().equals("Button1"))
   {
-    selectInput("tissemand", "ReadFile");
+    selectOutput("indlæs spil", "SaveFile");
   }
   if (theEvent.getController().getName().equals("Button1"))
   {
