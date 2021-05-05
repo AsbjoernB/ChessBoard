@@ -36,7 +36,6 @@ void setup()
   size(1200, 800);
   noStroke();
   boardread();
-  selectInput("tissemand","poopoo");
   buttonsColor
     .setActive(color(196, 160, 130))
     .setForeground(color(188, 148, 115))
@@ -58,7 +57,11 @@ void setup()
     .setFont(createFont("Garamond", 32))
     .setText("1. ");
   buttons[2].setLabel("Kopier position");
-  ReadFile("bruh.txt");
+}
+
+// sørger for at alting sættes tilbage til startværdierne, når et spil f.eks. indlæses
+void gameInit()
+{
 }
 
 void draw()
@@ -318,6 +321,10 @@ String boardread()
 
 void controlEvent(ControlEvent theEvent)
 {
+  if (theEvent.getController().getName().equals("Button0"))
+  {
+    selectInput("tissemand","ReadFile");
+  }
   if (theEvent.getController().getName().equals("Button1"))
   {
     gameNotation = booster.showTextInputDialog("Indtast eller kopier FEN notation");
