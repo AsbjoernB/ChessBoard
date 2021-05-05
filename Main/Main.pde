@@ -29,6 +29,7 @@ int selectedSquare = -1;
 
 void setup()
 {
+                  
   cp5 = new ControlP5(this);
   b = new Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
   size(1200, 800);
@@ -61,6 +62,7 @@ void setup()
     .setPosition(825, 150)
     .setFont(createFont("Garamond", 32))
     .setText("1. ");
+  ReadFile("bruh.txt");
 }
 
 void draw()
