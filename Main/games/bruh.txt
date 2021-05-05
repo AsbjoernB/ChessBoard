@@ -1,4 +1,0 @@
-rnbqkbnr/pppppppp/8/8/8/8/PRRPPPPP/RNBQKBNR
-1. e2e4 d7d5
-2. e4d5 a7a5
-3. a2a4

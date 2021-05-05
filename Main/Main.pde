@@ -36,10 +36,12 @@ void setup()
   size(1200, 800);
   noStroke();
   boardread();
+  
   buttonsColor
     .setActive(color(196, 160, 130))
     .setForeground(color(188, 148, 115))
     .setBackground(color(181, 136, 99));
+    
   for (int i = 0; i < buttonCount; i++)
   {
     buttons[i] = cp5.addButton("Button"+i)
@@ -48,6 +50,7 @@ void setup()
       .setColor(buttonsColor)
       .setFont(createFont("Arial", 17));
   }
+  
   buttons[0].setLabel("Start spil");
   buttons[1].setLabel("Indlaes spil");
   buttons[2].setLabel("Gem spil");
@@ -56,20 +59,21 @@ void setup()
     .setSize(370, 300)
     .setPosition(825, 150)
     .setFont(createFont("Garamond", 32))
-    .setText("1. ");
+    .setText("1. ")
+    .setColor(0);
 }
 
 // sørger for at alting sættes tilbage til startværdierne, når et spil f.eks. indlæses
 void gameInit()
 {
-  moveNum = 0;
+  moveNum = 1;
+  moveIndex = -1;
+  moveList.clear();
   moveText.setText("1.");
-  b = new Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 }
 
 void draw()
 {
-  println(moveText.getText());
   background(240, 217, 181);
   fill(155, 140, 117);
   rect(800, 0, 20, 800);
@@ -83,6 +87,9 @@ void draw()
       else
         fill(darkSquares);
       rect(r*100, f*100, 100, 100);
+      
+      fill(0);
+      text(f*8+r, r*100+50, f*100+50);
     }
   }
 
@@ -154,7 +161,6 @@ void keyPressed()
       moveIndex--;
     }
   }
-  println(moveText.getText());
 }
 void mousePressed()
 {
@@ -318,16 +324,16 @@ void controlEvent(ControlEvent theEvent)
     gameNotation = booster.showTextInputDialog("Indtast FEN notation");
     if (gameNotation != null && !gameNotation.equals(""))
     {
+      gameInit();
       b = new Board(gameNotation);
     }
   }
   if (theEvent.getController().getName().equals("Button1"))
   {
-    //selectInput("tissemand", "ReadFile");
-    gameInit();
+    selectInput("Indlæs spil", "ReadFile");
   }
   if (theEvent.getController().getName().equals("Button2"))
   {
-    FilledForm printFen = booster.createForm("FEN").addText("FEN Notation", boardread()).show();
+    selectOutput("Gem spil", "SaveFile");
   }
 }

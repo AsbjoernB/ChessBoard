@@ -1,9 +1,12 @@
 class Board
 {
   Piece[] pieces = new Piece[64];
+  String FEN;
 
   Board(String FEN)
   {
+    this.FEN = FEN;
+    
     int boardPos = 0; 
     for (int i = 0; i < FEN.length(); i++)
     { 
