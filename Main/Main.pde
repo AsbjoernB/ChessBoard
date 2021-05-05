@@ -361,6 +361,6 @@ void controlEvent(ControlEvent theEvent)
   }
   if (theEvent.getController().getName().equals("Button2"))
   {
-    println(boardread());
+    FilledForm printFen = booster.createForm("FEN").addText("FEN Notation", boardread()).show();
   }
 }
