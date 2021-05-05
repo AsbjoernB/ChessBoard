@@ -57,21 +57,22 @@ void setup()
     .setPosition(825, 150)
     .setFont(createFont("Garamond", 32))
     .setText("1. ");
-  buttons[2].setLabel("Kopier position");
 }
 
 // sørger for at alting sættes tilbage til startværdierne, når et spil f.eks. indlæses
 void gameInit()
 {
-  
+  moveNum = 0;
+  moveText.setText("1.");
+  b = new Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 }
 
 void draw()
 {
+  println(moveText.getText());
   background(240, 217, 181);
   fill(155, 140, 117);
   rect(800, 0, 20, 800);
-  
   // draw board
   for (int r = 0; r < 8; r++)
   {
@@ -82,9 +83,6 @@ void draw()
       else
         fill(darkSquares);
       rect(r*100, f*100, 100, 100);
-      
-      fill(0);
-      text(f*8+r, r*100+50, f*100+50);
     }
   }
 
@@ -325,10 +323,8 @@ void controlEvent(ControlEvent theEvent)
   }
   if (theEvent.getController().getName().equals("Button1"))
   {
-    selectInput("tissemand", "ReadFile");
-  }
-  if (theEvent.getController().getName().equals("Button1"))
-  {
+    //selectInput("tissemand", "ReadFile");
+    gameInit();
   }
   if (theEvent.getController().getName().equals("Button2"))
   {
