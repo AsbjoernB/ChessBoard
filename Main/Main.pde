@@ -4,6 +4,7 @@ import uibooster.model.*;
 import uibooster.model.formelements.*;
 import uibooster.utils.*;
 import controlP5.*;
+UiBooster booster = new UiBooster();
 ControlP5 cp5;
 
 
@@ -11,8 +12,7 @@ ControlP5 cp5;
 //color darkSquares = color(100, 200, 100);
 color lightSquares = color(240, 217, 181);
 color darkSquares = color(181, 136, 99);
-
-int buttonCount = 2;
+int buttonCount = 3;
 Button [] buttons = new Button [buttonCount];
 Textarea FEN; 
 Board b;
@@ -22,9 +22,11 @@ int moveIndex = -1;
 ArrayList<LANmove> moveList = new ArrayList<LANmove>();
 Textarea moveText;
 
+
+String gameNotation;
+Textarea moves;
 boolean whiteToMove = true;
 int moveNum = 1;
-
 int selectedSquare = -1;
 
 void setup()
@@ -35,6 +37,7 @@ void setup()
   size(1200, 800);
   noStroke();
   boardread();
+
   buttonsColor
     .setActive(color(196, 160, 130))
     .setForeground(color(188, 148, 115))
@@ -42,22 +45,18 @@ void setup()
   for (int i = 0; i < buttonCount; i++)
   {
     buttons[i] = cp5.addButton("Button"+i)
-      .setSize(170, 30)
-      .setPosition(825+i*200, 10)
+      .setSize(360, 30)
+      .setPosition(830, 40*i)
       .setColor(buttonsColor)
       .setFont(createFont("Arial", 17));
   }
-  FEN = cp5.addTextarea("FEN")
-    .setSize(370, 50)
-    .setPosition(825, 50)
-    .setFont(createFont("Arial", 17))
-    .setLabel("FEN")
-    .setText(boardread())
-    .hideScrollbar();
-  buttons[0].setLabel("Indlaes spil");
+  buttons[0].setLabel("Indlaes eller gem spil");
   buttons[1].setLabel("Spil herfra");
-    
-  moveText = cp5.addTextarea("moves")
+
+  moveText = cp5.addTextarea("moves");
+  buttons[2].setLabel("Kopier position");
+
+  moves = cp5.addTextarea("moves")
     .setSize(370, 300)
     .setPosition(825, 150)
     .setFont(createFont("Garamond", 32))
@@ -103,7 +102,19 @@ void draw()
       //rect((i%8)*100+25, floor(i/8)*100+25, 50, 50);
       image(b.pieces[i].img, (i%8)*100, floor(i/8)*100);
     }
-  }
+  }/*
+  if(buttons[1].isMousePressed() == true)
+   {
+   gameNotation = booster.showTextInputDialog("Indtast eller kopier FEN notation");
+   if(gameNotation != null && !gameNotation.equals(""))
+   {
+   b = new Board(gameNotation);
+   }
+   }
+   if(buttons[2].isMousePressed() == true)
+   {
+   println(boardread());
+   }*/
 }
 void keyPressed()
 {
@@ -158,15 +169,14 @@ void mousePressed()
   if (mouseButton == RIGHT)
   {
     selectedSquare = -1;
-  }
-  else if (mouseButton == LEFT)
+  } else if (mouseButton == LEFT)
   {
     if (mouseX >= 0 && mouseX <= 800 && mouseY >= 0 && mouseY <= 800)
     {
       int x = floor(mouseX/100);
       int y = floor(mouseY/100);
       int newSquare = y*8+x;
-      
+
       // if a square is already selected
       if (selectedSquare != -1)
       {
@@ -176,30 +186,59 @@ void mousePressed()
         // select new square
         else if (b.pieces[newSquare] != null && b.pieces[selectedSquare].pieceColor == b.pieces[newSquare].pieceColor)
           selectedSquare = newSquare;
-          
+
         // move piece
         else if (moveIndex == moveList.size()-1)
         {
-          moveIndex++;
+            moveIndex++;
           LANmove move = new LANmove(selectedSquare, newSquare, b.pieces[newSquare]); 
           moveList.add(move);
           moveText.append(move.getNotation() + " ");
-          
-          
+
+            String moveString = "";
+          switch (b.pieces[selectedSquare].pieceType)
+          {
+          case Pawn: 
+            break;
+          case Bishop: 
+            moveString += 'B'; 
+            break;
+          case Knight: 
+            moveString += 'N'; 
+            break;
+          case Rook: 
+            moveString += 'R'; 
+            break;
+          case Queen: 
+            moveString += 'Q'; 
+            break;
+          case King: 
+            moveString += 'K'; 
+            break;
+          }
+          if (b.pieces[newSquare] != null)
+          {
+            if (b.pieces[selectedSquare].pieceType == PieceType.Pawn)
+              moveString += "abcdefgh".charAt(selectedSquare%8);
+            moveString += 'x';
+          }
+          moveString += "abcdefgh".charAt(newSquare%8);
+          moveString += 8-newSquare/8;
+          moves.append(moveString + " ");
           if (!whiteToMove)
           {
             moveNum++;
             moveText.append("\n"+moveNum+". ");
-          }
-          
+          }          
+
+          moveString = "";
           // move piece
           b.pieces[newSquare] = b.pieces[selectedSquare];
           b.pieces[selectedSquare] = null;
           selectedSquare = -1;
-          
+
           whiteToMove = !whiteToMove;
         }
-        
       }
       // else if no square is selected and piece is clicked
       else if (b.pieces[newSquare] != null && (b.pieces[newSquare].pieceColor == PieceColor.White) == whiteToMove)
@@ -310,4 +349,20 @@ String boardread()
     }
   }
   return(translate);
+}
+
+void controlEvent(ControlEvent theEvent)
+{
+  if (theEvent.getController().getName().equals("Button1"))
+  {
+    gameNotation = booster.showTextInputDialog("Indtast eller kopier FEN notation");
+    if (gameNotation != null && !gameNotation.equals(""))
+    {
+      b = new Board(gameNotation);
+    }
+  }
+  if (theEvent.getController().getName().equals("Button2"))
+  {
+    println(boardread());
+  }
 }

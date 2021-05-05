@@ -25,7 +25,6 @@ class Board
       }
       PieceColor pieceCol;
       PieceType pieceType = PieceType.Pawn;
-      println(c);
       if (c == Character.toUpperCase(c))
       {
         pieceCol = PieceColor.White;
