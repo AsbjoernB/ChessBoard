@@ -319,12 +319,11 @@ void controlEvent(ControlEvent theEvent)
 {
   if (theEvent.getController().getName().equals("Button0"))
   {
-    //gameNotation = booster.showTextInputDialog("Indtast FEN notation");
-    FilledForm gameNotation = booster.createForm("FEN").addText("FEN Notation", "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").show();
+    gameNotation = booster.showTextInputDialog("Indtast FEN notation");
     if (gameNotation != null && !gameNotation.equals(""))
     {
       gameInit();
-      b = new Board(gameNotation.getByIndex(0).asString());
+      b = new Board(gameNotation);
     }
   }
   if (theEvent.getController().getName().equals("Button1"))
