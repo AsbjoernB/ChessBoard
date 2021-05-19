@@ -7,6 +7,7 @@ void SaveFile(File file)
   content = splice(content, moveText.getText().split("\n"), 1);
   saveStrings(file.getAbsolutePath(), content);
 }
+
 void ReadFile(File file)
 {
   if (file == null)
@@ -21,7 +22,7 @@ void ReadFile(File file)
 
   lines = subset(lines, 1);
   moveText.setText(join(lines, "\n"));
-  moveNum = lines.length;
+  turnNum = lines.length;
   
   // loops all LAN moves
   for (String line : lines)

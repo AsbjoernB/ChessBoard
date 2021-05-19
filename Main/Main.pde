@@ -25,7 +25,7 @@ Textarea moveText;
 
 String gameNotation;
 boolean whiteToMove = true;
-int moveNum = 1;
+int turnNum = 1;
 int selectedSquare = -1;
 
 
@@ -66,7 +66,7 @@ void setup()
 // sørger for at alting sættes tilbage til startværdierne, når et spil f.eks. indlæses
 void gameInit()
 {
-  moveNum = 1;
+  turnNum = 1;
   moveIndex = -1;
   moveList.clear();
   moveText.setText("1.");
@@ -87,9 +87,6 @@ void draw()
       else
         fill(darkSquares);
       rect(r*100, f*100, 100, 100);
-      
-      fill(0);
-      text(f*8+r, r*100+50, f*100+50);
     }
   }
 
@@ -195,8 +192,8 @@ void mousePressed()
 
           if (!whiteToMove)
           {
-            moveNum++;
-            moveText.append("\n"+moveNum+". ");
+            turnNum++;
+            moveText.append("\n"+turnNum+". ");
           }
           // move piece
           b.pieces[newSquare] = b.pieces[selectedSquare];

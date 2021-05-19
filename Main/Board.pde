@@ -11,10 +11,6 @@ class Board
     for (int i = 0; i < FEN.length(); i++)
     { 
       char c = FEN.charAt(i);
-      if(c == ' ')
-      {
-        break;
-      }
       if (int(c) >= 48 && int(c) <= 57)
       {
         int temp;
