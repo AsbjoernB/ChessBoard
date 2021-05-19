@@ -86,8 +86,10 @@ void draw()
         fill (lightSquares);
       else
         fill(darkSquares);
-        
       rect(r*100, f*100, 100, 100);
+      
+      fill(0);
+      text(f*8+r, r*100+50, f*100+50);
     }
   }
 
